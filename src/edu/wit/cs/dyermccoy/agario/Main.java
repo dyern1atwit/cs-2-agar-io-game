@@ -2,8 +2,6 @@ package edu.wit.cs.dyermccoy.agario;
 
 import java.util.ArrayList;
 
-import java.util.Random;
-
 import javafx.application.Application;
 
 import javafx.scene.Scene;
@@ -13,21 +11,21 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-	//dot array list
-	ArrayList<Circle> dots  = new ArrayList<>();
+	//Array list for 
+	ArrayList<Circle> cells = new ArrayList<>();
 	
 	//static variables controlling width height and the amount of food spawned
-	static int width = 600;
-	static int height = 600;
+	static int windowWidth = 1280;
+	static int windowHeight = 720;
 	static int limitFood = 50;
+	
 		@Override
 		public void start(Stage primaryStage) {
-			Random random = new Random();
 			
 			try {
 				//user circle is created
 				Circle UserDot = new Circle(100, 100, 30, Color.BLUE);
-				dots.add(UserDot);
+				cells.add(UserDot);
 				//user circle follows mouse only when mouse is inside dot
 				UserDot.setOnMouseMoved(e -> {
 				
@@ -37,22 +35,18 @@ public class Main extends Application{
 				});
 				//food is spawned & added to dot ArrayList
 				for(int i = 0 ; i < limitFood; i++) {
-				int randX = random.nextInt(width-1);
-				int randY = random.nextInt(height-1);
-				
-					Circle Dot = new Circle(randX, randY, 10);
-				 dots.add(Dot);
-				
+					new Food(windowWidth, windowHeight);
 				}
 				
 				
 			
 				Pane f = new Pane();
 				
-				f.getChildren().addAll(dots);
+				f.getChildren().addAll(Food.foodObjects);
+				f.getChildren().addAll(cells);
 				
 				
-				Scene scene = new Scene(f,width,height);
+				Scene scene = new Scene(f,windowWidth,windowHeight);
 				
 				
 				primaryStage.setScene(scene);
