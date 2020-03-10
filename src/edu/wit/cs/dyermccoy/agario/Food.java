@@ -23,4 +23,14 @@ public class Food extends Circle{
 		this.setCenterY(yValue);
 	}
 	
+	public Food(int i) {
+		super(5, Color.BLACK);
+		Random randomGen = new Random();
+		
+		int xValue = randomGen.nextInt(Settings.windowWidth);
+		int yValue = randomGen.nextInt(Settings.windowHeight);
+		
+		this.setCenterX(xValue);
+		this.setCenterY(yValue);
+	}	
 }
