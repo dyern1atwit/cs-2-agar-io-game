@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -30,6 +31,7 @@ public class Main extends Application{
 	
 		@Override
 		public void start(Stage primaryStage) {
+		
 			
 			BorderPane root = new BorderPane();
 			StackPane layerPane = new StackPane();
@@ -42,25 +44,37 @@ public class Main extends Application{
 			playfield.getChildren().add(playerScore);
 			
 			layerPane.getChildren().addAll(playfield);
-			
+			Button strt = new Button("Start");
+			Button HowToPlay = new Button("How to play");
 			root.setCenter(layerPane);
+			StackPane menu = new StackPane();
+			menu.getChildren().add(strt);
 			
+			menu.getChildren().add(HowToPlay);
+			
+			HowToPlay.setTranslateY(30);
+			
+			
+			Scene MainMenu = new Scene(menu,200, 200);
 		
 			Scene agario = new Scene(root, Settings.windowWidth, Settings.windowHeight);
 			
-			primaryStage.setScene(agario);
-			primaryStage.setTitle("We do be eating circles (o.O)");
+			primaryStage.setScene(MainMenu);
+			primaryStage.setTitle("Main Menu");
 			primaryStage.show();
-			primaryStage.setFullScreen(true);
-				
-				
-			Player.addAPlayer();
-				
-			
 			
 		      
-		       
+		   strt.addEventFilter(MouseEvent.MOUSE_CLICKED, e->{
+			   
+			   primaryStage.setScene(agario);
+			   
+			   primaryStage.setTitle("We do be eating circles (o.O)");
+			   
+			   primaryStage.setFullScreen(true);
+			   
+		   });    
 		     
+		   	Player.addAPlayer();
 				
 			agario.addEventFilter(MouseEvent.ANY, e -> {
 				
