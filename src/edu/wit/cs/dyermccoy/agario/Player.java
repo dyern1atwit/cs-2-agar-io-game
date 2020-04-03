@@ -28,7 +28,11 @@ public class Player extends Pane{
 	    double centerY = height / 2.0;
 	   
 	    
-	    
+	    public static Player addAPlayer() {
+			
+			return new Player();	
+			
+		}
 
 	    public Player() {
 
@@ -97,16 +101,7 @@ public class Player extends Pane{
 	   
 	    
 	    
-		public static void addAPlayer() {
-			
-			Player UserDot = new Player();
-			
-			Main.cells.add(UserDot);
-			
-			Main.playfield.getChildren().add(UserDot);
-			
-			
-		}
+		
 		
 		public double getCenterX() {
 			
@@ -155,7 +150,6 @@ public class Player extends Pane{
 					if (((userYPos + userRadius + foodRadius > foodYPos) && (userYPos < foodYPos + userRadius + foodRadius))){   
 				
 						
-				
 						grow();
 					
 						Main.playfield.getChildren().remove(Food.foodObjects.get(i));
