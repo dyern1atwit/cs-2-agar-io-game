@@ -3,22 +3,26 @@ package edu.wit.cs.dyermccoy.agario;
 
 import java.util.ArrayList;
 
-
-import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class Main extends Application{
@@ -31,10 +35,31 @@ public class Main extends Application{
 		@Override
 		public void start(Stage primaryStage) {
 			
+			//grid pane background
+			GridPane grid = new GridPane();
+			
+			//This assumes square window and graphic!
+			//Stroke size must be subtracted...
+			int graphicSize=Settings.windowHeight/Settings.GRIDHEIGHT - 3;
+			
+			//create all of the grid location and
+			//add them to the GridPane;
+			for(int i=0;i<Settings.GRIDHEIGHT;i++) {
+				for (int j=0;j<Settings.GRIDWIDTH;j++) {
+					grid.add(new GridElement(i,j,graphicSize).getGraphic(), i, j);
+				}
+			}
+			
 			Button strt = new Button("Start");
 			Button HowToPlay = new Button("How to play");
 			Button backBttn = new Button("Back");
-			Text HTP = new Text("HELLO");
+			String HowTo = "Use your mouse to direct the blue circle. \n" 
+					+ "Move over the black food to grow, move over smaller players to grow more. \n"
+					+ "Do not be eaten by circles that are bigger than you.\n"
+					+ "When finished hit escape on keyboard to exit.";
+					
+			Text HTP = new Text(HowTo);
+			
 			StackPane menu = new StackPane();
 			
 			StackPane HTPtext = new StackPane();
@@ -43,15 +68,19 @@ public class Main extends Application{
 			
 			HowToPlay.setTranslateY(30);
 			
+			
 			HTPtext.getChildren().add(HTP);
 			HTPtext.getChildren().add(backBttn);
 			
-			backBttn.setTranslateY(HTP.getY()+30);
+			backBttn.setTranslateY(HTP.getY()+100);
 			BorderPane root = new BorderPane();
 			StackPane layerPane = new StackPane();
 			
 			
 			playfield = new Pane();
+			
+			playfield.getChildren().add(grid);
+			
 			playerScore = new Label();
 			playerScore.setAlignment(Pos.TOP_CENTER);
 			playerScore.setTextFill(Color.BLACK);
@@ -63,16 +92,26 @@ public class Main extends Application{
 			root.setCenter(layerPane);
 			
 			//adds player to playfield
-			Player User = Player.addAPlayer();
+			Player User = new Player();
 			cells.add(User); 
 			playfield.getChildren().add(User);
 			
 			
+			//scene creation
 			Scene MainMenu = new Scene(menu,Settings.mainMenuWidth, Settings.mainMenuHeight);
 			Scene Instruct = new Scene(HTPtext, Settings.mainMenuWidth, Settings.mainMenuHeight);
 			Scene agario = new Scene(root, Settings.windowWidth, Settings.windowHeight);
 			
 			
+			
+		
+			  //spawns amount of food based on limit in settings
+			for(int i = Food.foodObjects.size(); i < Settings.limitFood; i++) {
+				
+				new Food(Settings.windowWidth, Settings.windowHeight);
+			}
+			
+			playfield.getChildren().addAll(Food.foodObjects);
 			
 			primaryStage.setScene(MainMenu);
 			primaryStage.setTitle("Main Menu");
@@ -94,7 +133,6 @@ public class Main extends Application{
 			 strt.addEventFilter(MouseEvent.MOUSE_CLICKED, e->{ 
 				 	primaryStage.setScene(agario); 
 			 		primaryStage.setTitle("We do be eating circles (o.O)"); 
-			 		primaryStage.setFullScreen(true);
 			 			});    
 		     
 			 
@@ -104,35 +142,40 @@ public class Main extends Application{
 						});
 			
 			
-		   //spawns amount of food based on limit in settings
-			for(int i = Food.foodObjects.size(); i < Settings.limitFood; i++) {
-				
-				new Food(Settings.windowWidth, Settings.windowHeight);
-			}
 			
-			playfield.getChildren().addAll(Food.foodObjects);
 			
-	
-			
-				AnimationTimer game = new AnimationTimer() {
+				EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
 
-				@Override
-				public void handle(long now) {
+					@Override
+					public void handle(ActionEvent event) {
+						
+						cells.forEach((UserDot) -> UserDot.step(mouse));
+						
+						cells.forEach(Player :: checkBoundaries);
+						
+						cells.forEach(Player :: moves);
+						
+						cells.forEach(Player :: eats);
+						
+					} 
+						};
+						Timeline game = new Timeline(new KeyFrame(Duration.millis(30), handler));
+						game.setCycleCount(Timeline.INDEFINITE);
+						game.play();
+			
+						
+						agario.setOnKeyPressed(e -> {
+							
+							if(e.getCode() == KeyCode.ESCAPE) {
+								game.stop();
+								System.exit(0);
+								
+							}
+						});
 				
-				cells.forEach((UserDot) -> UserDot.step(mouse));
-				
-				cells.forEach(Player :: checkBoundaries);
-				
-				cells.forEach(Player :: moves);
-				
-				cells.forEach(Player :: eats);
-				
-				} 
-					}; game.start();	
-					
-		
 }
 				
+		
 		public static void main(String[] args) {
 			
 			launch(args);

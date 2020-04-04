@@ -2,14 +2,18 @@ package edu.wit.cs.dyermccoy.agario;
 
 public class Settings {
 	
-	static int mainMenuHeight = 200;
+	final static int mainMenuHeight = 500;
 	
-	static int mainMenuWidth = 200;
+	final static int mainMenuWidth = 500;
 
-	static int windowWidth = 1100;
+	final static int windowWidth = 975;
 	
-	static int windowHeight = 1100;
+	final static int windowHeight = 1000;
 	
-	static int limitFood = 50;
+	final static int limitFood = (int) (windowWidth * .05);
+	
+	public final static int GRIDHEIGHT=5;
+	
+	public final static int GRIDWIDTH=5;
 	
 }

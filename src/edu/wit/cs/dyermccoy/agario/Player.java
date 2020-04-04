@@ -28,11 +28,7 @@ public class Player extends Pane{
 	    double centerY = height / 2.0;
 	   
 	    
-	    public static Player addAPlayer() {
-			
-			return new Player();	
-			
-		}
+	   
 
 	    public Player() {
 
@@ -47,7 +43,7 @@ public class Player extends Pane{
 	        circle.setCenterY(radius);
 
 	        circle.setStroke(Color.BLUE);
-	        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.3));
+	        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, .3));
 
 	        getChildren().add(circle);
 
@@ -67,7 +63,7 @@ public class Player extends Pane{
 	        location.add(velocity);
 
 	    }
-
+	    
 	    public void checkBoundaries() {
 
 	        if (location.x > Settings.windowWidth) {
