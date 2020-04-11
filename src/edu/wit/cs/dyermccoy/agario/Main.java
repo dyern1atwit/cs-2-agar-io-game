@@ -51,12 +51,8 @@ public class Main extends Application {
 		Button strt = new Button("Start");
 		Button HowToPlay = new Button("How to play");
 		Button backBttn = new Button("Back");
-		String HowTo = "Use your mouse to direct the blue circle. \n"
-				+ "Move over the black food to grow, move over smaller players to grow more. \n"
-				+ "Do not be eaten by circles that are bigger than you.\n"
-				+ "When finished hit escape on keyboard to exit.";
-
-		Text HTP = new Text(HowTo);
+		
+		Text HTP = new Text(Settings.HowTo);
 
 		StackPane menu = new StackPane();
 
@@ -74,8 +70,6 @@ public class Main extends Application {
 		StackPane layerPane = new StackPane();
 
 		playfield = new Pane();
-
-		playfield.getChildren().add(grid);
 
 		playerScore = new Label();
 		playerScore.setAlignment(Pos.TOP_CENTER);
@@ -102,8 +96,13 @@ public class Main extends Application {
 
 			new Food(Settings.windowWidth, Settings.windowHeight);
 		}
+		for (int i = Coronavirus.virusObjects.size(); i < Settings.limitVirus; i++) {
+			
+			new Coronavirus(Settings.windowWidth, Settings.windowHeight);
+		}
 
 		playfield.getChildren().addAll(Food.foodObjects);
+		playfield.getChildren().addAll(Coronavirus.virusObjects);
 
 		primaryStage.setScene(MainMenu);
 		primaryStage.setTitle("Main Menu");
@@ -137,6 +136,8 @@ public class Main extends Application {
 				cells.forEach((UserDot) -> UserDot.step(mouse));
 
 				cells.forEach(Player::checkBoundaries);
+
+				cells.forEach(Player::attacked);
 
 				cells.forEach(Player::eats);
 

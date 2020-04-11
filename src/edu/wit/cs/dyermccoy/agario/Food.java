@@ -23,7 +23,7 @@ public class Food extends Circle {
 		this.setCenterY(yValue);
 	}
 
-	public Food(int i) {
+	public Food() {
 		super(5, Color.BLACK);
 		Random randomGen = new Random();
 
