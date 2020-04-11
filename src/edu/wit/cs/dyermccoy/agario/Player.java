@@ -2,13 +2,12 @@ package edu.wit.cs.dyermccoy.agario;
 
 import java.util.Random;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Player extends Pane {
+public class Player extends Circle {
 
-	private static Random random = new Random();
+	private Random random = new Random();
 
 	Vector location;
 	Vector velocity;
@@ -16,104 +15,67 @@ public class Player extends Pane {
 
 	double Maxspeed;
 
-	static double width = 30;
-	static double height = width;
-	static double radius = width / 2.0;
-	static Circle circle;
-
-	double centerX = width / 2.0;
-	double centerY = height / 2.0;
-
 	public Player() {
-
-		location = new Vector(random.nextDouble() * width, random.nextDouble() * height);
+		super(16);
+		setStroke(Color.BLUE);
+		setFill(Color.BLUE.deriveColor(1, 1, 1, .3));
+		setCenterX(random.nextInt(Settings.windowWidth/2));
+		setCenterY(random.nextInt(Settings.windowHeight/2));
 		velocity = new Vector(0, 0);
 
 		Maxspeed = 4;
 
-		circle = new Circle(radius);
-		circle.setCenterX(radius);
-		circle.setCenterY(radius);
-
-		circle.setStroke(Color.BLUE);
-		circle.setFill(Color.BLUE.deriveColor(1, 1, 1, .3));
-
-		getChildren().add(circle);
-
 	}
 
 	public void step(Vector mouse) {
-
-		Vector dir = Vector.sub(mouse, location);
-
-		dir.normalize();
-		dir.mult(0.5);
-
-		acceleration = dir;
-
-		velocity.add(acceleration);
-		velocity.limit(Maxspeed);
-		location.add(velocity);
+		
+		Point2D position = new Point2D(getCenterX(), getCenterY());
+		Point2D mousePoint = new Point2D(mouse.x, mouse.y);
+		
+		position.moveDistanceTowardsPoint(mousePoint, Maxspeed);
+		this.setCenterX(position.x);
+		this.setCenterY(position.y);
+		
 
 	}
 
 	public void checkBoundaries() {
 
-		if (location.x > Settings.windowWidth) {
-
-			location.x = 0;
-
-		} else if (location.x < 0) {
-
-			location.x = Settings.windowWidth;
-
+		if (getCenterX() > Settings.windowWidth) {
+			setCenterX(0);
+		} 
+		
+		if (getCenterX() < 0) {
+			setCenterX(Settings.windowWidth);
 		}
 
-		if (location.y > Settings.windowHeight) {
-
-			location.y = 0;
-
-		} else if (location.y < 0) {
-
-			location.y = Settings.windowHeight;
-
+		if (getCenterY() > Settings.windowHeight) {
+			setCenterY(0);
+		}
+		
+		if (getCenterY() < 0) {
+			setCenterY(Settings.windowHeight);
 		}
 	}
 
 	public void moves() {
 
-		relocate(location.x - centerX, location.y - centerY);
+		relocate(getCenterX(), getCenterY());
 
-		Main.playerScore.relocate(location.x, location.y);
+		Main.playerScore.relocate(getCenterX(), getCenterY());
 
-	}
-
-	public double getCenterX() {
-
-		return location.x;
-	}
-
-	public double getCenterY() {
-
-		return location.y;
-	}
-
-	public double getRadius() {
-
-		return radius;
 	}
 
 	public void grow() {
 
-		radius += .6;
-
+		setRadius(getRadius() + 0.6);
+		
 		if (Maxspeed > .2) {
 
 			Maxspeed -= .006;
 
 		}
 
-		Player.circle.setRadius(radius);
 
 	}
 
@@ -121,15 +83,15 @@ public class Player extends Pane {
 
 		for (int i = 0; i < Food.foodObjects.size(); i++) {
 
-			int userXPos = ((int) Main.cells.get(0).getCenterX());
-			int userYPos = ((int) Main.cells.get(0).getCenterY());
-
 			int foodXPos = (int) Food.foodObjects.get(i).getCenterX();
 			int foodYPos = (int) Food.foodObjects.get(i).getCenterY();
-
+			
+			
+			
 			int userRadius = (int) Main.cells.get(0).getRadius();
 			int foodRadius = (int) Food.foodObjects.get(i).getRadius();
 
+			/*
 			if ((userXPos + userRadius + foodRadius > foodXPos) && (userXPos < foodXPos + userRadius + foodRadius)) {
 
 				if (((userYPos + userRadius + foodRadius > foodYPos)
@@ -147,6 +109,7 @@ public class Player extends Pane {
 
 				}
 			}
+			*/
 		}
 	}
 
