@@ -1,12 +1,16 @@
 package edu.wit.cs.dyermccoy.agario;
 
-public class Point2D extends com.sun.javafx.geom.Point2D {
+public class Point extends com.sun.javafx.geom.Point2D {
 	
-	public Point2D(double centerX, double centerY) {
+	public Point() {
+		super();
+	}
+	
+	public Point(double centerX, double centerY) {
 		this.setLocation((float) centerX, (float) centerY);
 	}
 
-	public void moveDistanceTowardsPoint(Point2D p, double distance) {
+	public void moveDistanceTowardsPoint(Point p, double distance) {
 		if (distance(p) <= distance) {
 			distance = distance(p);
 		}
@@ -23,6 +27,11 @@ public class Point2D extends com.sun.javafx.geom.Point2D {
 		double newY = this.y-(distance*Math.sin(angle));
 		
 		this.setLocation((float) newX, (float) newY);
+		
+	}
+	
+	public void setLocation(double x, double y) {
+		setLocation((float) x, (float) y);
 		
 	}
 }

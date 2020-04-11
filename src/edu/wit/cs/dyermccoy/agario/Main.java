@@ -27,7 +27,7 @@ public class Main extends Application {
 	static Pane playfield;
 	public static ArrayList<Player> cells = new ArrayList<>();
 
-	Vector mouse = new Vector(0, 0);
+	Point mouse = new Point();
 	public static Label playerScore;
 
 	@Override
@@ -126,7 +126,7 @@ public class Main extends Application {
 
 		// tracks mouse movements
 		agario.addEventFilter(MouseEvent.ANY, e -> {
-			mouse.set(e.getX(), e.getY());
+			mouse.setLocation(e.getX(), e.getY());
 		});
 
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
@@ -137,8 +137,6 @@ public class Main extends Application {
 				cells.forEach((UserDot) -> UserDot.step(mouse));
 
 				cells.forEach(Player::checkBoundaries);
-
-				cells.forEach(Player::moves);
 
 				cells.forEach(Player::eats);
 
