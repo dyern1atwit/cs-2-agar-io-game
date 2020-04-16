@@ -9,23 +9,13 @@ import javafx.scene.shape.Circle;
 public class Coronavirus extends Consumable {
 
 	public static ArrayList<Coronavirus> virusObjects = new ArrayList<>();
+	public static int VIRUS_SIZE = 30;
+	
+	public Coronavirus() {
 
-	public Coronavirus(int xRange, int yRange) {
-		
 		super(30);
-		
 		this.setFill(Color.FORESTGREEN);
-		
 		virusObjects.add(this);
 
-		
-	}
-
-	public Coronavirus() {
-		
-		super(30);
-		
-		this.setFill(Color.FORESTGREEN);
-		
 	}
 }

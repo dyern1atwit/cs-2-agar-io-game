@@ -10,21 +10,11 @@ public class Food extends Consumable {
 
 	public static ArrayList<Food> foodObjects = new ArrayList<>();
 
-	public Food(int xRange, int yRange) {
-		
-		super(5);
-		
-		this.setFill(Color.BLACK);
-		
-		foodObjects.add(this);
-
-		
-	}
-
 	public Food() {
-		
+
 		super(5);
-		
 		this.setFill(Color.BLACK);
+		foodObjects.add(this);
+		
 	}
 }

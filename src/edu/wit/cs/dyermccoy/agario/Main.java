@@ -25,7 +25,8 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 	static Pane playfield;
-	public static ArrayList<Player> cells = new ArrayList<>();
+	public static ArrayList<Cell> cells = new ArrayList<>();
+	
 
 	Point mouse = new Point();
 	public static Label playerScore;
@@ -85,6 +86,12 @@ public class Main extends Application {
 		Player User = new Player();
 		cells.add(User);
 		playfield.getChildren().add(User);
+		
+		for (int i = 0; i < 1; i++) {
+			AiPlayer newAi = new AiPlayer();
+			cells.add(newAi);
+			playfield.getChildren().add(newAi);
+		}
 
 		// scene creation
 		Scene MainMenu = new Scene(menu, Settings.mainMenuWidth, Settings.mainMenuHeight);
@@ -94,11 +101,11 @@ public class Main extends Application {
 		// spawns amount of food based on limit in settings
 		for (int i = Food.foodObjects.size(); i < Settings.limitFood; i++) {
 
-			new Food(Settings.windowWidth, Settings.windowHeight);
+			new Food();
 		}
 		for (int i = Coronavirus.virusObjects.size(); i < Settings.limitVirus; i++) {
 			
-			new Coronavirus(Settings.windowWidth, Settings.windowHeight);
+			new Coronavirus();
 		}
 
 		playfield.getChildren().addAll(Food.foodObjects);
@@ -133,13 +140,15 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 
-				cells.forEach((UserDot) -> UserDot.step(mouse));
+				User.step(mouse);
 
-				cells.forEach(Player::checkBoundaries);
+				for (int i = 0; i < AiPlayer.AiPlayers.size(); i++) {
+					AiPlayer.AiPlayers.get(i).step(AiPlayer.AiPlayers.get(i).AiControl());
+				}
+				
+				cells.forEach(Cell::isAttacked);
 
-				cells.forEach(Player::attacked);
-
-				cells.forEach(Player::eats);
+				cells.forEach(Cell::eat);
 
 			}
 		};
