@@ -79,8 +79,8 @@ public class Player extends Circle {
 	public void eats() {
 
 		for (int i = 0; i < Food.foodObjects.size(); i++) {
-			if (checkCollision((int) Food.foodObjects.get(i).getCenterX(),
-					(int) Food.foodObjects.get(i).getCenterY(), (int) Food.foodObjects.get(i).getRadius())) {
+			if (checkCollision( Food.foodObjects.get(i).getCenterX(),
+					Food.foodObjects.get(i).getCenterY(), Food.foodObjects.get(i).getRadius())) {
 
 				grows();
 
@@ -100,9 +100,9 @@ public class Player extends Circle {
 	public void attacked() {
 		if (getRadius() >= 31.5) {
 			for (int i = 0; i < Coronavirus.virusObjects.size(); i++) {
-				if (checkCollision( (int) Coronavirus.virusObjects.get(i).getCenterX(),
-						(int) Coronavirus.virusObjects.get(i).getCenterY(),
-						(int) Coronavirus.virusObjects.get(i).getRadius())) {
+				if (checkCollision( Coronavirus.virusObjects.get(i).getCenterX(),
+						 Coronavirus.virusObjects.get(i).getCenterY(),
+						 Coronavirus.virusObjects.get(i).getRadius())) {
 
 					shrinks();
 
@@ -118,11 +118,7 @@ public class Player extends Circle {
 		}
 	}
 
-	public boolean checkCollision(int X, int Y, int R) {
-
-		int ObjXPos = X;
-		int ObjYPos = Y;
-		int ObjRadius = R;
+	public boolean checkCollision(double ObjXPos, double ObjYPos, double ObjRadius) {
 		
 		if ((getCenterX() + getRadius() + ObjRadius > ObjXPos)
 				&& (getCenterX() < ObjXPos + getRadius() + ObjRadius)) {

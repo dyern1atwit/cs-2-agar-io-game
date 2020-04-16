@@ -6,31 +6,25 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Food extends Circle {
+public class Food extends Consumable {
 
 	public static ArrayList<Food> foodObjects = new ArrayList<>();
 
 	public Food(int xRange, int yRange) {
-		super(5, Color.BLACK);
+		
+		super(5);
+		
+		this.setFill(Color.BLACK);
+		
 		foodObjects.add(this);
 
-		Random randomGen = new Random();
-
-		int xValue = randomGen.nextInt(xRange);
-		int yValue = randomGen.nextInt(yRange);
-
-		this.setCenterX(xValue);
-		this.setCenterY(yValue);
+		
 	}
 
 	public Food() {
-		super(5, Color.BLACK);
-		Random randomGen = new Random();
-
-		int xValue = randomGen.nextInt(Settings.windowWidth);
-		int yValue = randomGen.nextInt(Settings.windowHeight);
-
-		this.setCenterX(xValue);
-		this.setCenterY(yValue);
+		
+		super(5);
+		
+		this.setFill(Color.BLACK);
 	}
 }

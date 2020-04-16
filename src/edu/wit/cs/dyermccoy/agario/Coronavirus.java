@@ -6,30 +6,26 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Coronavirus extends Circle {
+public class Coronavirus extends Consumable {
 
 	public static ArrayList<Coronavirus> virusObjects = new ArrayList<>();
 
 	public Coronavirus(int xRange, int yRange) {
-		super(30, Color.DARKGREEN);
+		
+		super(30);
+		
+		this.setFill(Color.FORESTGREEN);
+		
 		virusObjects.add(this);
 
-		Random randomGen = new Random();
-
-		int xValue = randomGen.nextInt(xRange);
-		int yValue = randomGen.nextInt(yRange);
-
-		this.setCenterX(xValue);
-		this.setCenterY(yValue);
+		
 	}
 
 	public Coronavirus() {
-		super(30, Color.DARKGREEN);
-
-		Random rand = new Random();
-
-		this.setCenterX(rand.nextInt(Settings.windowWidth));
-
-		this.setCenterY(rand.nextInt(Settings.windowHeight));
+		
+		super(30);
+		
+		this.setFill(Color.FORESTGREEN);
+		
 	}
 }
