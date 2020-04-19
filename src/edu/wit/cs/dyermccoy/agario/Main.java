@@ -32,7 +32,7 @@ public class Main extends Application {
 	static Label playerScore;
 	static Button strt, HowToPlay, backBttn;
 	static Text HTP;
-
+	
 	@Override
 	public void start(Stage primaryStage) {
 		// Creates Scenes and Game
@@ -75,4 +75,7 @@ public class Main extends Application {
 
 	}
 
+	public static void main(String[] args){
+		launch(args);
+	}
 }
