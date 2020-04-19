@@ -10,11 +10,12 @@ public class Food extends Consumable {
 
 	public static ArrayList<Food> foodObjects = new ArrayList<>();
 
+	// creates food objects
 	public Food() {
 
 		super(5);
 		this.setFill(Color.BLACK);
 		foodObjects.add(this);
-		
+
 	}
 }

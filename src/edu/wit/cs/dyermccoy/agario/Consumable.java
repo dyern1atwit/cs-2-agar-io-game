@@ -19,7 +19,7 @@ public abstract class Consumable extends Circle {
 		this.setCenterY(yValue);
 
 	}
-	
+
 	public Point getPoint() {
 		return new Point(getCenterX(), getCenterY());
 	}
