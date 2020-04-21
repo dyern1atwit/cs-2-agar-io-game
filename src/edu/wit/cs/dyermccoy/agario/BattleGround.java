@@ -28,9 +28,13 @@ public class BattleGround extends Main {
 				AiPlayer.AiPlayers.get(i).step(AiPlayer.AiPlayers.get(i).AiControl());
 			}
 
-			cells.forEach(Cell::isAttacked);
+			Cell.getCellArrayList().forEach(Cell::infected);
 
-			cells.forEach(Cell::eats);
+			Cell.getCellArrayList().forEach(Cell::eatsFood);
+			
+			Cell.getCellArrayList().forEach(Cell::eatsPlayer);
+			
+			Cell.getCellArrayList().forEach(Cell::checkBoundaries);
 
 		}
 	};
@@ -116,12 +120,10 @@ public class BattleGround extends Main {
 	public void spawnCells() {
 
 		User = new Player();
-		cells.add(User);
 		playfield.getChildren().add(User);
 
 		for (int i = 0; i < Settings.limitAi; i++) {
 			AiPlayer newAi = new AiPlayer();
-			cells.add(newAi);
 			playfield.getChildren().add(newAi);
 		}
 

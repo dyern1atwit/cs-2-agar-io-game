@@ -1,7 +1,5 @@
 package edu.wit.cs.dyermccoy.agario;
 
-import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,8 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-	public static ArrayList<Cell> cells = new ArrayList<>();
 
 	public static Player User;
 	static Pane playfield, menufield;

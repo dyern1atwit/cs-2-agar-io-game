@@ -10,7 +10,7 @@ public class Settings {
 	final static int windowHeight = 1000;
 
 	// object spawn limits
-	final static int limitFood = (int) (windowWidth * .05);
+	final static int limitFood = (int) (75);
 	final static int limitVirus = 2;
 	final static int limitAi = 5;
 
@@ -22,6 +22,8 @@ public class Settings {
 	final static String HowTo = "Use your mouse to direct the blue circle. \n"
 			+ "Move over the black food to grow, move over smaller players to grow more. \n"
 			+ "Do not be eaten by circles that are bigger than you.\n"
+			+ "More aggressive circles will be more red, however they\n"
+			+ "will also be more cautious.\n"
 			+ "When finished hit escape on keyboard to exit.";
 
 }

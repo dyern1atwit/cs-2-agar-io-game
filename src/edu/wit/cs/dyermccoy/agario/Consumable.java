@@ -12,8 +12,8 @@ public abstract class Consumable extends Circle {
 
 		Random randomGen = new Random();
 
-		int xValue = randomGen.nextInt(Settings.windowWidth);
-		int yValue = randomGen.nextInt(Settings.windowHeight);
+		int xValue = randomGen.nextInt(Settings.windowWidth-40)+20;
+		int yValue = randomGen.nextInt(Settings.windowHeight-40)+20;
 
 		this.setCenterX(xValue);
 		this.setCenterY(yValue);

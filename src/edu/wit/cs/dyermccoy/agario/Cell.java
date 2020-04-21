@@ -1,5 +1,6 @@
 package edu.wit.cs.dyermccoy.agario;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
@@ -14,7 +15,9 @@ public abstract class Cell extends Circle {
 	private static final double GROWTH_RATE = .6;
 	private static final double SHRINK_RATE = 30;
 	private static final double MIN_SPEED = 1;
-
+	private static ArrayList<Cell> cells = new ArrayList<>();
+	private boolean isDead = false;
+	
 	public Cell(Color color) {
 		super(MIN_RADIUS);
 
@@ -22,6 +25,8 @@ public abstract class Cell extends Circle {
 		setFill(color.deriveColor(1, 1, 1, .3));
 		setCenterX(random.nextInt(Settings.windowWidth));
 		setCenterY(random.nextInt(Settings.windowHeight));
+		
+		cells.add(this);
 	}
 
 	public abstract void step(Point p);
@@ -30,6 +35,30 @@ public abstract class Cell extends Circle {
 	private void grow() {
 
 		setRadius(getRadius() + GROWTH_RATE);
+		if (speed > MIN_SPEED) {
+			speed = newSpeed();
+		}
+
+	}
+	
+	public void checkBoundaries() {
+		if (!isDead) {
+			if (getCenterX() > Settings.windowWidth-5) {
+				setCenterX(15);
+			} else if (getCenterX() < 5) {
+				setCenterX(Settings.windowWidth-15);
+			}
+			if (getCenterY() > Settings.windowHeight-5) {
+				setCenterY(15);
+			} else if (getCenterY() < 5) {
+				setCenterY(Settings.windowHeight-15);
+			}
+		}
+	}
+	
+	private void grow(double addition) {
+
+		setRadius(getRadius() + addition);
 		if (speed > MIN_SPEED) {
 			speed = newSpeed();
 		}
@@ -46,9 +75,19 @@ public abstract class Cell extends Circle {
 		speed = newSpeed();
 
 	}
+	
+	private void die() {
+			
+			isDead = true;
+			setRadius(0);
+			speed = 0;
+			setCenterX(-2000);
+			setCenterY(-2000);
+			
+	}
 
 	// checks collision between objects
-	private boolean checkCollision(Consumable c) {
+	private boolean checkCollision(Circle c) {
 		Point object = new Point(c.getCenterX(), c.getCenterY());
 		Point cell = new Point(getCenterX(), getCenterY());
 
@@ -70,7 +109,7 @@ public abstract class Cell extends Circle {
 	}
 
 	// if it collides with an object will eat and grow
-	protected void eats() {
+	protected void eatsFood() {
 
 		for (int i = 0; i < Food.foodObjects.size(); i++) {
 			if (checkCollision(Food.foodObjects.get(i))) {
@@ -87,9 +126,22 @@ public abstract class Cell extends Circle {
 			}
 		}
 	}
+	
+	protected void eatsPlayer() {
+		for (int i = 0; i < cells.size(); i++) {
+			if (cells.get(i).getRadius() < getRadius()) {
+				if (checkCollision(cells.get(i))) {
+					
+					grow(cells.get(i).getRadius());
+					cells.get(i).die();
+					
+				}
+			}
+		}
+	}
 
 	// if collides with a virus will be attacked and shrink
-	protected void isAttacked() {
+	protected void infected() {
 		if (getRadius() >= Coronavirus.VIRUS_SIZE) {
 			for (int i = 0; i < Coronavirus.virusObjects.size(); i++) {
 				if (checkCollision(Coronavirus.virusObjects.get(i))) {
@@ -100,12 +152,18 @@ public abstract class Cell extends Circle {
 
 					Coronavirus newVirus = new Coronavirus();
 					Main.playfield.getChildren().add(newVirus);
+					
 				}
 			}
 		}
 	}
-
+	
+	
 	public Point getPoint() {
 		return new Point(getCenterX(), getCenterY());
+	}
+	
+	public static ArrayList<Cell> getCellArrayList(){
+		return cells;
 	}
 }
