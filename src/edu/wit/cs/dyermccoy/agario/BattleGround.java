@@ -12,6 +12,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -31,12 +34,12 @@ public class BattleGround extends Main {
 			Cell.getCellArrayList().forEach(Cell::infected);
 
 			Cell.getCellArrayList().forEach(Cell::eatsFood);
-			
+
 			Cell.getCellArrayList().forEach(Cell::eatsPlayer);
-			
+
 			Cell.getCellArrayList().forEach(Cell::checkBoundaries);
 
-		}
+		};
 	};
 	static Timeline game = new Timeline(new KeyFrame(Duration.millis(30), handler));
 
@@ -53,7 +56,7 @@ public class BattleGround extends Main {
 
 	// main menu scene
 	public void createMainMenu() {
-
+		
 		menu = new StackPane();
 		HTPtext = new StackPane();
 		menufield = new Pane();
@@ -61,12 +64,14 @@ public class BattleGround extends Main {
 		HowToPlay = new Button("How to play");
 		backBttn = new Button("Back");
 		HTP = new Text(Settings.HowTo);
-
+		AGARIO = new Text("AGAR.IO");
+		AGARIO.setFont(Font.font("arial", FontWeight.BOLD, FontPosture.REGULAR, 40));
 		menu.getChildren().add(menufield);
 		menu.getChildren().add(strt);
 		menu.getChildren().add(HowToPlay);
-
+		menu.getChildren().add(AGARIO);
 		HowToPlay.setTranslateY(30);
+		AGARIO.setTranslateY(-60);
 
 		backBttn.setTranslateY(HTP.getY() + 100);
 
@@ -83,12 +88,21 @@ public class BattleGround extends Main {
 
 		root = new BorderPane();
 		layerPane = new StackPane();
-
+		restart = new Button("Restart");
 		playfield = new Pane();
-
+		youWIN = new Text("You Win... Play Again?");
+		youLOSE = new Text("You Lose... Play Again?");
 		playerScore = new Label();
 		playerScore.setAlignment(Pos.TOP_CENTER);
 		playerScore.setTextFill(Color.BLACK);
+		youLOSE.setFont(Font.font("arial", FontWeight.BOLD, FontPosture.REGULAR, 40));
+		youWIN.setFont(Font.font("arial", FontWeight.BOLD, FontPosture.REGULAR, 40));
+		youLOSE.setX(300);
+		youLOSE.setY(400);
+		youWIN.setX(300);
+		youWIN.setY(400);
+		restart.setTranslateX(400);
+		restart.setTranslateY(425);
 
 		playfield.getChildren().add(playerScore);
 
@@ -100,7 +114,7 @@ public class BattleGround extends Main {
 	}
 
 	// food and virus objects
-	public void spawnConsumables() {
+	public static void spawnConsumables() {
 
 		for (int i = Food.foodObjects.size(); i < Settings.limitFood; i++) {
 
@@ -117,7 +131,7 @@ public class BattleGround extends Main {
 	}
 
 	// cell objects
-	public void spawnCells() {
+	public static void spawnCells() {
 
 		User = new Player();
 		playfield.getChildren().add(User);

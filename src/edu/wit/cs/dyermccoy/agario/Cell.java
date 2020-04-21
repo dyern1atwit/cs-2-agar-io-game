@@ -10,14 +10,14 @@ public abstract class Cell extends Circle {
 
 	private Random random = new Random();
 	double speed = 4;
-
+	int count = 0;
 	private static final double MIN_RADIUS = 16;
 	private static final double GROWTH_RATE = .6;
 	private static final double SHRINK_RATE = 30;
 	private static final double MIN_SPEED = 1;
 	private static ArrayList<Cell> cells = new ArrayList<>();
 	private boolean isDead = false;
-	
+
 	public Cell(Color color) {
 		super(MIN_RADIUS);
 
@@ -25,7 +25,7 @@ public abstract class Cell extends Circle {
 		setFill(color.deriveColor(1, 1, 1, .3));
 		setCenterX(random.nextInt(Settings.windowWidth));
 		setCenterY(random.nextInt(Settings.windowHeight));
-		
+
 		cells.add(this);
 	}
 
@@ -40,22 +40,22 @@ public abstract class Cell extends Circle {
 		}
 
 	}
-	
+
 	public void checkBoundaries() {
 		if (!isDead) {
-			if (getCenterX() > Settings.windowWidth-5) {
+			if (getCenterX() > Settings.windowWidth - 5) {
 				setCenterX(15);
 			} else if (getCenterX() < 5) {
-				setCenterX(Settings.windowWidth-15);
+				setCenterX(Settings.windowWidth - 15);
 			}
-			if (getCenterY() > Settings.windowHeight-5) {
+			if (getCenterY() > Settings.windowHeight - 5) {
 				setCenterY(15);
 			} else if (getCenterY() < 5) {
-				setCenterY(Settings.windowHeight-15);
+				setCenterY(Settings.windowHeight - 15);
 			}
 		}
 	}
-	
+
 	private void grow(double addition) {
 
 		setRadius(getRadius() + addition);
@@ -75,16 +75,17 @@ public abstract class Cell extends Circle {
 		speed = newSpeed();
 
 	}
-	
+
 	private void die() {
-			
-			isDead = true;
-			setRadius(0);
-			speed = 0;
-			setCenterX(-2000);
-			setCenterY(-2000);
-			
+
+		isDead = true;
+		setRadius(0);
+		speed = 0;
+		setCenterX(-2000);
+		setCenterY(-2000);
+
 	}
+
 
 	// checks collision between objects
 	private boolean checkCollision(Circle c) {
@@ -126,15 +127,30 @@ public abstract class Cell extends Circle {
 			}
 		}
 	}
-	
+	//if collides with an cell will consume and grow
 	protected void eatsPlayer() {
+
 		for (int i = 0; i < cells.size(); i++) {
 			if (cells.get(i).getRadius() < getRadius()) {
 				if (checkCollision(cells.get(i))) {
-					
+
 					grow(cells.get(i).getRadius());
 					cells.get(i).die();
-					
+					// checks to see if player is out or if player is last alive
+					if (cells.get(i) instanceof Player) {
+						BattleGround.game.stop();
+						Main.playfield.getChildren().add(Main.restart);
+						Main.playfield.getChildren().add(Main.youLOSE);
+					} else {
+						count++;
+						if (count == Settings.limitAi) {
+							BattleGround.game.stop();
+							Main.playfield.getChildren().add(Main.restart);
+							Main.playfield.getChildren().add(Main.youWIN);
+						}
+
+					}
+
 				}
 			}
 		}
@@ -152,18 +168,17 @@ public abstract class Cell extends Circle {
 
 					Coronavirus newVirus = new Coronavirus();
 					Main.playfield.getChildren().add(newVirus);
-					
+
 				}
 			}
 		}
 	}
-	
-	
+
 	public Point getPoint() {
 		return new Point(getCenterX(), getCenterY());
 	}
-	
-	public static ArrayList<Cell> getCellArrayList(){
+
+	public static ArrayList<Cell> getCellArrayList() {
 		return cells;
 	}
 }

@@ -14,16 +14,11 @@ public class Settings {
 	final static int limitVirus = 2;
 	final static int limitAi = 5;
 
-	// grid box borders
-	final static int GRIDHEIGHT = 5;
-	final static int GRIDWIDTH = 5;
-
 	// directions for main menu screen
 	final static String HowTo = "Use your mouse to direct the blue circle. \n"
 			+ "Move over the black food to grow, move over smaller players to grow more. \n"
 			+ "Do not be eaten by circles that are bigger than you.\n"
-			+ "More aggressive circles will be more red, however they\n"
-			+ "will also be more cautious.\n"
+			+ "More aggressive circles will be more red, however they\n" + "will also be more cautious.\n"
 			+ "When finished hit escape on keyboard to exit.";
 
 }

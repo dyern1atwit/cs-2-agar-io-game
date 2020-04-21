@@ -1,6 +1,7 @@
 package edu.wit.cs.dyermccoy.agario;
 
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,9 +27,9 @@ public class Main extends Application {
 	static Scene Instruct, agario;
 
 	static Label playerScore;
-	static Button strt, HowToPlay, backBttn;
-	static Text HTP;
-	
+	static Button strt, HowToPlay, backBttn, restart;
+	static Text AGARIO, HTP, youLOSE, youWIN;
+
 	@Override
 	public void start(Stage primaryStage) {
 		// Creates Scenes and Game
@@ -69,9 +70,18 @@ public class Main extends Application {
 			}
 		});
 
+		// restarts game, clears cell array list
+		restart.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+
+			Cell.getCellArrayList().clear();
+			primaryStage.close();
+			new Main().start(primaryStage);
+
+		});
+
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		launch(args);
 	}
 }

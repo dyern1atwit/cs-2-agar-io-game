@@ -1,26 +1,22 @@
 package edu.wit.cs.dyermccoy.agario;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class AiPlayer extends Cell {
 
-	//private Circle aiPointer = new Circle(5, Color.RED);
+	// private Circle aiPointer = new Circle(5, Color.RED);
 	Random random = new Random();
 	public static ArrayList<AiPlayer> AiPlayers = new ArrayList<>();
-	public int aggressiveness = random.nextInt(20)+1;
+	public int aggressiveness = random.nextInt(20) + 1;
 
 	public AiPlayer() {
 		super(Color.GRAY);
 		Color c = randomColor();
 		setStroke(c);
 		setFill(c.deriveColor(1, 1, 1, .3));
-		//BattleGround.playfield.getChildren().add(aiPointer);
 		AiPlayers.add(this);
 	}
 
@@ -31,7 +27,7 @@ public class AiPlayer extends Cell {
 			return getClosestFood();
 		}
 	}
-
+	//finds closest food
 	public Point getClosestFood() {
 		Point food = Food.foodObjects.get(0).getPoint();
 		double closestDistance = getPoint().distance(food);
@@ -48,7 +44,7 @@ public class AiPlayer extends Cell {
 		return food;
 
 	}
-
+	//searches for a random food in the food arraylist
 	public Point getRandomFood() {
 		Point food = Food.foodObjects.get(random.nextInt(Food.foodObjects.size())).getPoint();
 		return food;
@@ -56,7 +52,7 @@ public class AiPlayer extends Cell {
 
 	public Point playerInteraction(Cell c) {
 		Point cell = null;
-		if (c.getRadius() >= this.getRadius()+aggressiveness-1) {
+		if (c.getRadius() >= this.getRadius() + aggressiveness - 1) {
 			cell = c.getPoint().getOppositePoint(this.getPoint());
 		} else if (c.getRadius() < this.getRadius() - aggressiveness) {
 			cell = c.getPoint();
@@ -66,7 +62,7 @@ public class AiPlayer extends Cell {
 		return cell;
 
 	}
-
+	//finds the closest cell
 	public Cell getClosestCell() {
 		Point cell = Cell.getCellArrayList().get(0).getPoint();
 		double closestDistance = getPoint().distance(cell);
@@ -86,7 +82,7 @@ public class AiPlayer extends Cell {
 
 	@Override
 	public void step(Point p) {
-		//aiPointer.relocate(p.x, p.y);
+		// aiPointer.relocate(p.x, p.y);
 		Point position = getPoint();
 		position.moveDistanceTowardsPoint(p, speed);
 		setCenterX(position.x);
@@ -97,7 +93,7 @@ public class AiPlayer extends Cell {
 	public Color randomColor() {
 		Random randomGen = new Random();
 
-		int r = (int) ((20/aggressiveness)*12.75);
+		int r = (int) ((20 / aggressiveness) * 12.75);
 		int g = randomGen.nextInt(64);
 		int b = randomGen.nextInt(64);
 		return Color.rgb(r, g, b);

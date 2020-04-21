@@ -17,7 +17,7 @@ public class Player extends Cell {
 		setCenterX(position.x);
 		setCenterY(position.y);
 		Main.playerScore.relocate(position.x, position.y);
-		
+
 		Main.playerScore.setText(Integer.toString((int) (getRadius())));
 
 	}

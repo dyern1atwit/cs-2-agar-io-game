@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 public class Food extends Consumable {
 
 	private Cell reservedTo = null;
-	
+
 	public static ArrayList<Food> foodObjects = new ArrayList<>();
 
 	// creates food objects
@@ -17,11 +17,11 @@ public class Food extends Consumable {
 		foodObjects.add(this);
 
 	}
-	
+
 	public Cell getReserved() {
 		return reservedTo;
 	}
-	
+
 	public void setReserved(Cell b) {
 		reservedTo = b;
 	}

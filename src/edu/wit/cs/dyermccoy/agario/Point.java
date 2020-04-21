@@ -26,7 +26,7 @@ public class Point extends com.sun.javafx.geom.Point2D {
 		this.setLocation(newX, newY);
 
 	}
-	
+
 	public Point getOppositePoint(Point p) {
 		double distance = this.distance(p);
 
@@ -35,8 +35,8 @@ public class Point extends com.sun.javafx.geom.Point2D {
 
 		double angle = Math.atan2(y, x);
 
-		double newX = this.x - (distance * Math.cos(angle)*2);
-		double newY = this.y - (distance * Math.sin(angle)*2);
+		double newX = this.x - (distance * Math.cos(angle) * 2);
+		double newY = this.y - (distance * Math.sin(angle) * 2);
 
 		return new Point(newX, newY);
 	}
